@@ -50,12 +50,20 @@ module.exports = {
                     minimize: false //si cambio a true minimiza el codigo de html y quita comentarios
                 }
             },
+            // Usamos asset/resource para manejar imágenes como recursos estáticos
+            {
+                test: /\.(png|jpg|jpeg|gif|svg)$/i,
+                type: 'asset/resource', // Emitir el archivo como un recurso separado
+                generator: {
+                    filename: 'assets/[name][ext][query]' // Mantener el nombre original
+                }
+            },
             // {
             //     test: /\.(png|svg|jpg|gif)$/i,
             //     use: [
             //         {
             //             loader: 'file-loader',
-            //             options : {
+            //             options: {
             //                 esModule: false
             //             }
             //         }

@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
-
 module.exports = {
     mode: 'production',
     optimization: {
@@ -13,7 +12,8 @@ module.exports = {
         ]
     },
     output: {
-        filename: 'main.[hash].js'
+        filename: 'main.[hash].js',
+        clean: true
     },
     module: {
         rules: [
@@ -83,7 +83,7 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [{
-                from: 'src/assets',
+                from: 'src/assets/',
                 to: 'assets/'
             }]
         }),

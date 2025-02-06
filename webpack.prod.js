@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
-
 module.exports = {
     mode: 'production',
     optimization: {
@@ -13,7 +12,8 @@ module.exports = {
         ]
     },
     output: {
-        filename: 'main.[hash].js'
+        filename: 'main.[hash].js',
+        clean: true
     },
     module: {
         rules: [
@@ -50,6 +50,18 @@ module.exports = {
                     minimize: false //si cambio a true minimiza el codigo de html y quita comentarios
                 }
             },
+            //este si funciona si copia
+            // {
+            //     test: /\.(png|svg|jpg|gif)$/i,
+            //     use: [
+            //         {
+            //             loader: 'file-loader',
+            //             options: {
+            //                 name: 'assets/[name].[hash].[ext]'  // Esto copia las imágenes en dist/assets/ con un hash
+            //             }
+            //         }
+            //     ]
+            // }
             // {
             //     test: /\.(png|svg|jpg|gif)$/i,
             //     use: [
@@ -75,7 +87,7 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [{
-                from: 'src/assets',
+                from: 'src/assets/',
                 to: 'assets/'
             }]
         }),

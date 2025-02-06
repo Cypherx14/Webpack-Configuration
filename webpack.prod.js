@@ -2,10 +2,15 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
+
 module.exports = {
     mode: 'production',
     optimization: {
-        minimizer: [new OptimizeCssAssetsPlugin()]
+        minimizer: [
+            new OptimizeCssAssetsPlugin(),
+            new TerserPlugin()
+        ]
     },
     output: {
         filename: 'main.[hash].js'
@@ -13,16 +18,26 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    // options: {
+                    //     presets: ['@babel/preset-env']
+                    // }
+                }
+            },
+            {
                 test: /\.css$/,
                 exclude: /styles\.css$/,
-                use : [
+                use: [
                     'style-loader',
                     'css-loader'
                 ]
             },
             {
                 test: /styles\.css$/,
-                use : [
+                use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
@@ -55,14 +70,14 @@ module.exports = {
             inject: 'body', // Esto mueve el script al final del body
         }),
         new MiniCssExtractPlugin({
-            filename : '[name].[hash].css',
+            filename: '[name].[hash].css',
             ignoreOrder: false
         }),
         new CopyPlugin({
             patterns: [{
-                from: 'src/assets', 
+                from: 'src/assets',
                 to: 'assets/'
             }]
-        })
+        }),
     ],
 }
